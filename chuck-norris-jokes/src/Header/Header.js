@@ -1,13 +1,20 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Header = (props, clickHandler) => {
   return (
     <>
-      {props.categories.map((category, index) => {
-        <button onClick={e => clickHandler(e)} key={index}>
-          {category}
-        </button>;
-      })}
+      {props.jokeListCategories ? (
+        props.jokeListCategories.map((category, index) => {
+          return (
+            <NavLink to={"/" + category} key={index}>
+              {category}
+            </NavLink>
+          );
+        })
+      ) : (
+        <div></div>
+      )}
     </>
   );
 };
