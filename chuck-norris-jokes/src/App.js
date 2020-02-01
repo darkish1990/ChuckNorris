@@ -3,78 +3,45 @@ import "./App.css";
 import { Router, Route } from "react-router-dom";
 import Header from "./Header/Header";
 import JokeList from "./JokeList/Jokelist";
-import createBrowserHistory from "history/createBrowserHistory";
-
+import { createBrowserHistory } from "history";
+const history = createBrowserHistory();
 function App() {
-  const [jokeList, setJokelist] = useState([]);
-  const [jokeListCategories, setJokelistCategories] = useState([]);
+  const [jokeList, setJokelist] = useState({});
   let dataVal;
-  let tempArray = [];
-  const history = createBrowserHistory();
 
   useEffect(() => {
     fetch(`http://api.icndb.com/jokes/`).then(res =>
       res.json().then(data => {
         dataVal = data.value;
+        let cats = {};
         let category;
         if (dataVal) {
-          setJokelist(dataVal);
           dataVal.forEach(element => {
-            category = element.categories;
-            if (
-              !jokeListCategories.includes(category[0]) &&
-              !tempArray.includes(category[0])
-            ) {
-              tempArray.push(category[0]);
-            }
+            category =
+              element.categories && element.categories.length
+                ? element.categories[0]
+                : "None";
+            cats[category] = cats[category] || [];
+            cats[category].push(element);
           });
         }
-        setJokelistCategories(tempArray);
-        console.log(jokeListCategories);
+        setJokelist(cats);
       })
     );
   }, []);
 
-  const ClickHandler = (e, selectedLimiter) => {
-    let selectedCategory = e.target.value;
-    if (selectedCategory) {
-      fetch(
-        `http://api.icndb.com/jokes/random/${selectedLimiter}?limitTo=[${selectedCategory}]`
-      ).then(res =>
-        res.json().then(data => {
-          dataVal = data.value;
-          setJokelist(dataVal);
-        })
-      );
-    }
-  };
-
   return (
     <div className="App">
-      <Router>
-        <Header props={jokeListCategories} clickHandler={ClickHandler} />
-
+      <Router history={history}>
+        <Header jokeListCategories={Object.keys(jokeList)} />
         <Route
           exact
           path="/"
-          render={() => <jokeLiJokeList history={history} category={"all"} />}
+          render={() => <JokeList category="All" jokeList={jokeList} />}
         />
-        {jokeListCategories ? (
-          jokeListCategories.map((category, index) => {
-            return (
-              <Route
-                key={index}
-                exact
-                path={"/" + { category }}
-                render={() => (
-                  <jokeLiJokeList history={history} category={category} />
-                )}
-              />
-            );
-          })
-        ) : (
-          <div></div>
-        )}
+        <Route path="/:category">
+          <JokeList jokeList={jokeList} />
+        </Route>
       </Router>
     </div>
   );

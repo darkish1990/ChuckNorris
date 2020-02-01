@@ -3,7 +3,7 @@ import React from "react";
 const CardComponent = props => {
   return (
     <>
-      <div>{props.joke}</div>
+      <div>{JSON.stringify(props.joke)}</div>
     </>
   );
 };

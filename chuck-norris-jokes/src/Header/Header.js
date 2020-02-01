@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const Header = (props, clickHandler) => {
+const Header = ({ jokeListCategories, clickHandler }) => {
+  jokeListCategories.sort();
   return (
     <>
-      {props.jokeListCategories ? (
-        props.jokeListCategories.map((category, index) => {
+      <NavLink to={"/"}>All</NavLink>
+      {jokeListCategories ? (
+        jokeListCategories.map((category, index) => {
           return (
             <NavLink to={"/" + category} key={index}>
               {category}
