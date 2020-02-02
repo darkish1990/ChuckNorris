@@ -1,10 +1,10 @@
 import React from "react";
+import "./CardComponent.css";
 
 const CardComponent = props => {
   return (
     <>
-      
-      <div>{props.joke?props.joke.joke.replace(/&quot;/g, '"'):null}</div>
+      <div className="card">{props.joke ? props.joke.joke.replace(/&quot;/g, '"') : null}</div>
     </>
   );
 };

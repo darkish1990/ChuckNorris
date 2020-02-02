@@ -5,6 +5,8 @@
   align-items: center;
 }
 .header a {
+    margin-left: 10px;
+    margin-right: 10px;
   font-size: 14px;
   padding: 10px;
   text-decoration: none;

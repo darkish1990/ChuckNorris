@@ -17,7 +17,7 @@ const Header = ({ jokeListCategories, clickedDemlimiter }) => {
         {jokeListCategories ? (
           jokeListCategories.map(category => {
             return (
-              <NavLink to={"/" + category}>{category.toUpperCase()}</NavLink>
+              <NavLink to={"/" + category} key={category}>{category.toUpperCase()}</NavLink>
             );
           })
         ) : (

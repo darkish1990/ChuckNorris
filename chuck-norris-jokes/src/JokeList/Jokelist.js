@@ -1,5 +1,6 @@
 import React from "react";
 import CardComponent from "../CardComponent/CardComponent";
+import "./JokeList.css"
 import { useParams } from "react-router";
 
 function getAllJokes(jokeList) {
@@ -31,7 +32,7 @@ const JokeList = props => {
   }
   return (
     <>
-      <h1>{category}</h1>
+      <h1>{category.toUpperCase()}</h1>
       {jokes.map((joke, index) => {
         return <CardComponent joke={joke} key={index}></CardComponent>;
       })}
