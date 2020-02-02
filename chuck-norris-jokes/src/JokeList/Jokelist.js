@@ -4,23 +4,27 @@ import { useParams } from "react-router";
 
 function getAllJokes(jokeList) {
   let allJokes = [];
-  console.log(jokeList.length);
-  
+
   Object.keys(jokeList).reduce((prev, curr) => {
-    prev.push(...(jokeList[curr]));
+    prev.push(...jokeList[curr]);
     return prev;
   }, allJokes);
   return allJokes;
 }
 const JokeList = props => {
-  let { category } = useParams();
+  let { category, delimiter } = useParams();
   category = category || props.category;
+  delimiter = delimiter || props.delimiter;
   let jokes;
   if (!props.jokeList) return null;
   if (category === "All") {
     jokes = getAllJokes(props.jokeList);
+    //jokes.length = delimiter;
   } else {
-    jokes = props.jokeList[category];
+    if (  props.jokeList[category] &&  props.jokeList[category].length > 0 &&  delimiter) {
+      jokes = props.jokeList[category].slice();
+      jokes.length = delimiter;
+    }
     if (!jokes) {
       return null;
     }
