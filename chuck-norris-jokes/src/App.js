@@ -12,7 +12,7 @@ function App() {
   let dataVal;
 
   useEffect(() => {
-    fetch(`http://api.icndb.com/jokes/`).then(res =>
+    fetch(`https://api.icndb.com/jokes/`).then(res =>
       res.json().then(data => {
         dataVal = data.value;
         let cats = {};
